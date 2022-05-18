@@ -1,0 +1,123 @@
+[gd_scene load_steps=14 format=3 uid="uid://c7s5whinls8s3"]
+
+[ext_resource type="Texture2D" uid="uid://b46rnmtgvg1pv" path="res://tile.PNG" id="1_rgh6f"]
+[ext_resource type="Script" path="res://tile_map.gd" id="2_g1xv5"]
+[ext_resource type="Texture2D" uid="uid://gv541prr2yq8" path="res://ant.PNG" id="3_gxwum"]
+[ext_resource type="Texture2D" uid="uid://b6yauqn4h7ijs" path="res://right.PNG" id="3_mftdp"]
+[ext_resource type="Texture2D" uid="uid://cje32ocdwsib4" path="res://down.PNG" id="4_u8tpx"]
+[ext_resource type="Texture2D" uid="uid://18xm8xsn5v6q" path="res://left.PNG" id="5_0d3q2"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dfc8q"]
+resource_name = "dead"
+texture = ExtResource( "1_rgh6f" )
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rpcvw"]
+resource_name = "alive"
+texture = ExtResource( "1_rgh6f" )
+0:0/0 = 0
+0:0/0/modulate = Color(0, 0.831373, 1, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ttp3v"]
+resource_name = "up"
+texture = ExtResource( "3_gxwum" )
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uxfj6"]
+resource_name = "right"
+texture = ExtResource( "3_mftdp" )
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vmmp2"]
+resource_name = "down"
+texture = ExtResource( "4_u8tpx" )
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_prlif"]
+resource_name = "left"
+texture = ExtResource( "5_0d3q2" )
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_vw84b"]
+sources/0 = SubResource( "TileSetAtlasSource_dfc8q" )
+sources/1 = SubResource( "TileSetAtlasSource_rpcvw" )
+sources/2 = SubResource( "TileSetAtlasSource_ttp3v" )
+sources/3 = SubResource( "TileSetAtlasSource_uxfj6" )
+sources/4 = SubResource( "TileSetAtlasSource_vmmp2" )
+sources/5 = SubResource( "TileSetAtlasSource_prlif" )
+
+[node name="TileMap" type="TileMap"]
+tile_set = SubResource( "TileSet_vw84b" )
+format = 2
+layer_1/name = ""
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource( "2_g1xv5" )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ItemList" type="ItemList" parent="CanvasLayer"]
+offset_right = 161.0
+offset_bottom = 63.0
+focus_mode = 0
+item_count = 2
+item_0/text = "Q: Ant Brush"
+item_0/icon = ExtResource( "3_gxwum" )
+item_1/text = "W: Tile Brush"
+item_1/icon = ExtResource( "1_rgh6f" )
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer"]
+offset_top = 63.0
+offset_right = 134.0
+offset_bottom = 94.0
+text = "E: Simulate"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+offset_left = 4.0
+offset_top = 96.0
+offset_right = 20.0
+offset_bottom = 112.0
+pivot_offset = Vector2(8, 8)
+texture = ExtResource( "3_gxwum" )
+stretch_mode = 2
+
+[node name="RotationLabel" type="Label" parent="CanvasLayer"]
+offset_left = 23.0
+offset_top = 93.0
+offset_right = 93.0
+offset_bottom = 119.0
+text = "R: Rotate"
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = 890.0
+offset_right = 1023.0
+offset_bottom = 52.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+offset_bottom = 43.0
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer"]
+offset_left = 904.0
+offset_right = 1024.0
+offset_bottom = 46.0
+
+[node name="SpeedLabel" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer"]
+offset_right = 120.0
+offset_bottom = 26.0
+text = "Speed"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/HBoxContainer/VBoxContainer"]
+minimum_size = Vector2(120, 0)
+offset_top = 30.0
+offset_right = 120.0
+offset_bottom = 46.0
+min_value = 10.0
+value = 60.0
