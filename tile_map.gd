@@ -48,7 +48,7 @@ func _process(_delta):
 		brush = BRUSH.ANT
 		brushes.select(brush)
 	if Input.is_action_just_pressed("tile"):
-		brush = BRUSH.TILE
+		brush = BRUSH.PHEROMONE
 		brushes.select(brush)
 	if Input.is_action_just_pressed("simulate"):
 		is_simulating = !is_simulating
@@ -67,16 +67,17 @@ func _process(_delta):
 			ROTATION.LEFT:
 				rotation_texture.texture = load("res://left.PNG")
 	if is_simulating:
-		time -= 1
-		if time <= 0:
-			time = speed_slider.value
-			for i in range(ants.size() - 1):
-				_move_ant(i)
-			if ants.size() == 1:
-				_move_ant(0)
+		# time -= 1
+		# if time <= 0:
+			# time = speed_slider.value
+		for i in range(ants.size() - 1):
+			_move_ant(i)
+		if ants.size() == 1:
+			_move_ant(0)
 
 
 func _move_ant(index: int):
+	if index >= ants.size(): return
 	var ant = ants[index]
 	var ant_rotation = rotations[index]
 	_set_tile(ant, 1 - get_cell_source_id(0, ant, false))
