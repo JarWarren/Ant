@@ -115,10 +115,10 @@ offset_left = 904.0
 offset_right = 1024.0
 offset_bottom = 46.0
 
-[node name="SpeedLabel" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer"]
+[node name="DelayLabel" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer"]
 offset_right = 120.0
 offset_bottom = 26.0
-text = "Speed"
+text = "Delay"
 horizontal_alignment = 1
 
 [node name="HSlider" type="HSlider" parent="CanvasLayer/HBoxContainer/VBoxContainer"]
@@ -126,5 +126,6 @@ minimum_size = Vector2(120, 0)
 offset_top = 30.0
 offset_right = 120.0
 offset_bottom = 46.0
-min_value = 10.0
+min_value = 1.0
+max_value = 60.0
 value = 60.0

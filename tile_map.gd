@@ -15,7 +15,7 @@ const TILE_SIZE = 16
 @onready var brushes: ItemList = $CanvasLayer/ItemList
 @onready var rotation_texture = $CanvasLayer/TextureRect
 @onready var simulate_checkbox = $CanvasLayer/CheckBox
-@onready var speed_slider = $CanvasLayer/HBoxContainer/VBoxContainer/HSlider
+@onready var delay_slider = $CanvasLayer/HBoxContainer/VBoxContainer/HSlider
 
 var ants = []
 var brush = BRUSH.ANT
@@ -24,10 +24,10 @@ var generation_number = 0
 var is_simulating = false
 var population = 0
 var rotations = []
-var time = 0
+var delay = 0
 
 func _ready():
-	# time = speed_slider.value
+	delay = delay_slider.value
 	brushes.select(brush)
 	for row in range(HEIGHT):
 		for column in range(WIDTH):
@@ -69,13 +69,13 @@ func _process(_delta):
 	if Input.is_action_just_pressed("reset"):
 		_reset_board()
 	if is_simulating:
-		# time -= 1
-		# if time <= 0:
-			# time = speed_slider.value
-		for i in range(ants.size() - 1):
-			_move_ant(i)
-		if ants.size() == 1:
-			_move_ant(0)
+		delay -= 1
+		if delay <= 0:
+			delay = delay_slider.value
+			for i in range(ants.size() - 1):
+				_move_ant(i)
+			if ants.size() == 1:
+				_move_ant(0)
 
 
 func _move_ant(index: int):
