@@ -27,8 +27,7 @@ var rotations = []
 var time = 0
 
 func _ready():
-	time = speed_slider.value
-	print(time)
+	# time = speed_slider.value
 	brushes.select(brush)
 	for row in range(HEIGHT):
 		for column in range(WIDTH):
@@ -54,7 +53,8 @@ func _process(_delta):
 		is_simulating = !is_simulating
 		simulate_checkbox.button_pressed = is_simulating
 	if Input.is_action_just_pressed("rotate"):
-		brush_rotation += 1
+		var raw_value = int(brush_rotation)
+		brush_rotation = raw_value + 1
 		if brush_rotation >= 6:
 			brush_rotation = 2
 		match brush_rotation:
@@ -66,6 +66,8 @@ func _process(_delta):
 				rotation_texture.texture = load("res://down.PNG")
 			ROTATION.LEFT:
 				rotation_texture.texture = load("res://left.PNG")
+	if Input.is_action_just_pressed("reset"):
+		_reset_board()
 	if is_simulating:
 		# time -= 1
 		# if time <= 0:
@@ -81,7 +83,7 @@ func _move_ant(index: int):
 	var ant = ants[index]
 	var ant_rotation = rotations[index]
 	_set_tile(ant, 1 - get_cell_source_id(0, ant, false))
-	_set_ant(ant, brush_rotation)
+	_set_ant(ant)
 	match ant_rotation:
 		ROTATION.UP:
 			ant.y -= 1
@@ -102,7 +104,7 @@ func _set_tile(coordinate: Vector2, id: int):
 	set_cell(0, coordinate, id, Vector2.ZERO, 0)
 
 
-func _set_ant(coordinate: Vector2, ant_rotation: ROTATION):
+func _set_ant(coordinate: Vector2, ant_rotation: ROTATION = ROTATION.UP):
 	if coordinate in ants:
 		erase_cell(1, coordinate)
 		var index = ants.find(coordinate)
@@ -112,3 +114,15 @@ func _set_ant(coordinate: Vector2, ant_rotation: ROTATION):
 		set_cell(1, coordinate, ant_rotation, Vector2.ZERO, 0)
 		ants.append(coordinate)
 		rotations.append(ant_rotation)
+
+
+func _reset_board():
+	is_simulating = false
+	simulate_checkbox.button_pressed = false
+	for row in range(HEIGHT):
+		for column in range(WIDTH):
+			_set_tile(Vector2(column, row), 0)
+	for ant in ants:
+		erase_cell(1, ant)
+		rotations = []
+		ants = []
