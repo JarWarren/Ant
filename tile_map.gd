@@ -1,6 +1,6 @@
 extends TileMap
 
-enum BRUSH {ANT, TILE}
+enum BRUSH {ANT, PHEROMONE}
 enum ROTATION {
 	UP = 2,
 	RIGHT = 3,
@@ -42,7 +42,7 @@ func _process(_delta):
 		match brush:
 			BRUSH.ANT:
 				_set_ant(click_coordinate, brush_rotation)
-			BRUSH.TILE:
+			BRUSH.PHEROMONE:
 				_set_tile(click_coordinate, 1 - id)
 	if Input.is_action_just_pressed("ant"):
 		brush = BRUSH.ANT
@@ -71,37 +71,43 @@ func _process(_delta):
 		if time <= 0:
 			time = speed_slider.value
 			for i in range(ants.size() - 1):
-				var ant = ants[i]
-				var ant_rotation = rotations[i]
-				_set_tile(ant, 1 - get_cell_source_id(0, ant, false))
-				_set_ant(ant, brush_rotation)
-				match ant_rotation:
-					ROTATION.UP:
-						ant.y -= 1
-						ant_rotation = ROTATION.RIGHT if get_cell_source_id(0, ant, false) == 0 else ROTATION.LEFT
-					ROTATION.RIGHT:
-						ant.x += 1
-						ant_rotation = ROTATION.DOWN if get_cell_source_id(0, ant, false) == 0 else ROTATION.UP
-					ROTATION.DOWN:
-						ant.y += 1
-						ant_rotation = ROTATION.LEFT if get_cell_source_id(0, ant, false) == 0 else ROTATION.RIGHT
-					ROTATION.LEFT:
-						ant.x -= 1
-						ant_rotation = ROTATION.UP if get_cell_source_id(0, ant, false) == 0 else ROTATION.DOWN
-				_set_ant(ant, ant_rotation)
+				_move_ant(i)
+			if ants.size() == 1:
+				_move_ant(0)
+
+
+func _move_ant(index: int):
+	var ant = ants[index]
+	var ant_rotation = rotations[index]
+	_set_tile(ant, 1 - get_cell_source_id(0, ant, false))
+	_set_ant(ant, brush_rotation)
+	match ant_rotation:
+		ROTATION.UP:
+			ant.y -= 1
+			ant_rotation = ROTATION.RIGHT if get_cell_source_id(0, ant, false) == 0 else ROTATION.LEFT
+		ROTATION.RIGHT:
+			ant.x += 1
+			ant_rotation = ROTATION.DOWN if get_cell_source_id(0, ant, false) == 0 else ROTATION.UP
+		ROTATION.DOWN:
+			ant.y += 1
+			ant_rotation = ROTATION.LEFT if get_cell_source_id(0, ant, false) == 0 else ROTATION.RIGHT
+		ROTATION.LEFT:
+			ant.x -= 1
+			ant_rotation = ROTATION.UP if get_cell_source_id(0, ant, false) == 0 else ROTATION.DOWN
+	_set_ant(ant, ant_rotation)
 
 
 func _set_tile(coordinate: Vector2, id: int):
 	set_cell(0, coordinate, id, Vector2.ZERO, 0)
 
 
-func _set_ant(coordinate: Vector2, rotation: ROTATION):
+func _set_ant(coordinate: Vector2, ant_rotation: ROTATION):
 	if coordinate in ants:
 		erase_cell(1, coordinate)
 		var index = ants.find(coordinate)
 		ants.remove_at(index)
 		rotations.remove_at(index)
 	else:
-		set_cell(1, coordinate, rotation, Vector2.ZERO, 0)
+		set_cell(1, coordinate, ant_rotation, Vector2.ZERO, 0)
 		ants.append(coordinate)
-		rotations.append(rotation)
+		rotations.append(ant_rotation)

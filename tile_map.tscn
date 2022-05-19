@@ -61,13 +61,13 @@ script = ExtResource( "2_g1xv5" )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ItemList" type="ItemList" parent="CanvasLayer"]
-offset_right = 161.0
+offset_right = 206.0
 offset_bottom = 63.0
 focus_mode = 0
 item_count = 2
 item_0/text = "Q: Ant Brush"
 item_0/icon = ExtResource( "3_gxwum" )
-item_1/text = "W: Tile Brush"
+item_1/text = "W: Pheromone Brush"
 item_1/icon = ExtResource( "1_rgh6f" )
 
 [node name="CheckBox" type="CheckBox" parent="CanvasLayer"]
@@ -90,7 +90,7 @@ offset_left = 23.0
 offset_top = 93.0
 offset_right = 93.0
 offset_bottom = 119.0
-text = "R: Rotate"
+text = "R: Rotate Brush"
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 offset_left = 890.0
