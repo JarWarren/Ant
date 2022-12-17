@@ -8,14 +8,14 @@ enum ROTATION {
 	LEFT = 5
 	}
 
-const HEIGHT = 38
-const WIDTH = 64
+const HEIGHT = 29
+const WIDTH = 50
 const TILE_SIZE = 16
 
 @onready var brushes: ItemList = $CanvasLayer/ItemList
 @onready var rotation_texture = $CanvasLayer/TextureRect
 @onready var simulate_checkbox = $CanvasLayer/CheckBox
-@onready var delay_slider = $CanvasLayer/HBoxContainer/VBoxContainer/HSlider
+@onready var delay_slider = $CanvasLayer/ColorRect/HBoxContainer/VBoxContainer/HSlider
 
 var ants = []
 var brush = BRUSH.ANT
